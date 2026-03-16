@@ -80,6 +80,7 @@ select { cursor:pointer; appearance:none; background-image:url(“data:image/svg
 .type-card:hover { border-color:var(–primary-light); background:rgba(0,107,60,0.04); transform:translateY(-2px); }
 .type-card.selected { border-color:var(–primary); background:rgba(0,107,60,0.07); box-shadow:0 0 0 3px rgba(0,107,60,0.12); }
 .type-card.selected::after { content:‘✓’; position:absolute; top:7px; left:7px; width:19px; height:19px; background:var(–primary); color:white; border-radius:50%; font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+.type-card * { pointer-events:none; }
 .type-emoji { font-size:26px; margin-bottom:7px; display:block; }
 .type-label { font-size:0.76rem; font-weight:700; color:var(–text); line-height:1.4; }
 .type-days { font-size:0.68rem; color:var(–primary); margin-top:3px; font-weight:600; }
@@ -569,8 +570,11 @@ body > *:not(#print-doc) { display:none !important; }
   };
 
   function selectType(el) {
+    // التأكد من الوصول إلى البطاقة الأصل حتى لو ضغط على عنصر داخلي
+    const card = el.closest('.type-card') || el;
     document.querySelectorAll('.type-card').forEach(c=>c.classList.remove('selected'));
-    el.classList.add('selected'); selectedType = el.dataset.type;
+    card.classList.add('selected');
+    selectedType = card.dataset.type;
   }
 
   function showDynamic() {
